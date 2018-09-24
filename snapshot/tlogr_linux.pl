@@ -28,7 +28,7 @@ $check_comm_sent="/home/mta/Snap/check_comm_sent";
 #`cp /proj/rac/ops/CRM3/CRMsummary.dat $web_dir`;   # copy so DMZ can see it 11/16/10 bds
 `cp /proj/rac/ops/CRM2/CRMsummary.dat $web_dir`;   # copy so DMZ can see it 11/16/10 bds
 
-my @ftype = qw(ACA CCDM EPHIN EPS PCAD IRU SIM-OTG SI TEL EPS-SFMT NORM-SFMT);
+my @ftype = qw(ACA CCDM EPS PCAD IRU SIM-OTG SI TEL EPS-SFMT NORM-SFMT);
 
 # see if a tlogr is already running, but if too many 
 #  iterations have been skipped something is wrong, so start a new one.
