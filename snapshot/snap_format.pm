@@ -95,7 +95,7 @@ $s .= sprintf "PMTANKP    %8.3f    SCS 107  %4s       EPH temp %9.2f\n", ${$h{PM
 #$s .= sprintf "Prop. line 04 %6.2f  Yaw Bias   %7.4f", ${$h{PLINE04T}}[1], ${$h{AOGBIAS3}}[1]*206264.98;
 #$s .= sprintf "%23s OTG Move %6s\n", " ",${$h{"4OOTGMEF"}}[1];
 
-$s .= sprintf "Gyro 2 Curr 1 %6.2f   ",
+$s .= sprintf "Gyro 2 Curr 1 %6.2f                                         ",
                ${$h{AIRU2G1I}}[1];
 #if ((${$h{"5EHSE106"}}[1]) % 2 == 1) {
 #  $s .= sprintf "%18s  EPH 27V  %9.2f",
