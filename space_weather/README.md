@@ -1,4 +1,5 @@
 c3po-v tracking of space_weather crontab scripts: [spreadsheet here](https://docs.google.com/spreadsheets/d/1fbhwCiXByD2DfeTT4kG_gpNsrMLACyxw07sJytjHMc0/edit?usp=sharing)
+Note: Taken from Sep 17 2018 crontab
 
 | crontab line | Active? | directories_referenced | Note | Input  | Output | scripts_run_1 | scripts_run_2 | scripts_run_3 |
 | ------------ | ------- | ---------------------- | ---- | -----  | ------ | ------------- | ------------- | ------------- |
