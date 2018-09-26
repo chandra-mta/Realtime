@@ -1,4 +1,4 @@
-)c3po-v tracking of SOH crontab scripts: [spreadsheet here](https://docs.google.com/spreadsheets/d/1fbhwCiXByD2DfeTT4kG_gpNsrMLACyxw07sJytjHMc0/edit?usp=sharing
+c3po-v tracking of SOH crontab scripts: [spreadsheet here](https://docs.google.com/spreadsheets/d/1fbhwCiXByD2DfeTT4kG_gpNsrMLACyxw07sJytjHMc0/edit?usp=sharing)
 
 Note: Taken from Sep 17 2018 crontab
 
