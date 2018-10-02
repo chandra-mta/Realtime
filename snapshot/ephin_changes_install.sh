@@ -1,6 +1,7 @@
 #! /bin/sh
 #Run as user mta
 
+
 git_dir=/home/lduque/git/Realtime
 
 cd $git_dir
