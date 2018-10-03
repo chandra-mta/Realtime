@@ -35,6 +35,8 @@ AIRU1G1I	2	-	150	-	200
 AIRU1G2I	2	-	150	-	200
 AIRU2G1I	2	-	150	-	200
 AIRU2G2I	2	-	150	-	200
+5EIOT           2       0       155     0       158
+5EPHINT         2       0       155     0       158
 TEPHIN		2	0	135	0	140
 #CTXAPWR		2	-1	36.82	-1	37.00
 #CTXBPWR		2	-1	36.82	-1	37.00

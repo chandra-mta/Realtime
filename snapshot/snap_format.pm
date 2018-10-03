@@ -67,11 +67,11 @@ $s .= sprintf "                       SCS 130  %4s       -Y SA Temp %7.2f\n",
 $s .= sprintf "Roll Mom.  %8.3f    SCS 131  %4s\n",
     ${$h{AOSYMOM1}}[1], ${$h{COSCS131S}}[1]; #removed E1300
 
-$s .= sprintf "Pitch Mom. %8.3f    SCS 132  %4s                            UpLCmdAcc%6d\n",
-    ${$h{AOSYMOM2}}[1], ${$h{COSCS132S}}[1],  ${$h{CULACC}}[1]; #removed EPH A-Leak
+$s .= sprintf "Pitch Mom. %8.3f    SCS 132  %4s       Ephin temp %7.2f   UpLCmdAcc%6d\n",
+    ${$h{AOSYMOM2}}[1], ${$h{COSCS132S}}[1], ${$h{"5EPHINT"}}[1], ${$h{CULACC}}[1]; #removed EPH A-Leak
 
-$s .= sprintf "Yaw Mom.   %8.3f    SCS 133  %4s       EPH B-Leak%8.4f   Cmd Rej A%6d\n",
-    ${$h{AOSYMOM3}}[1], ${$h{COSCS133S}}[1], ${$h{"5EHSE500"}}[1], ${$h{CMRJCNTA}}[1];
+$s .= sprintf "Yaw Mom.   %8.3f    SCS 133  %4s       EIO temp %9.2f   Cmd Rej A%6d\n",
+    ${$h{AOSYMOM3}}[1], ${$h{COSCS133S}}[1], ${$h{"5EIOT"}}[1], ${$h{CMRJCNTA}}[1];
 
 $s .= sprintf "PMTANKP    %8.3f    SCS 107  %4s       EPH temp %9.2f\n", ${$h{PMTANKP}}[1],${$h{COSCS107S}}[1],${$h{TEPHIN}}[1];
 
@@ -332,8 +332,8 @@ $s .= sprintf "<font color=%s>Pitch Mom. %8.3f    </font></a>",
                ${$h{AOSYMOM2}}[3], ${$h{AOSYMOM2}}[1];
 $s .= sprintf "<font color=%s>SCS 132  %4s       </font>",
                ${$h{COSCS132S}}[3], ${$h{COSCS132S}}[1];
-#$s .= sprintf "<font color=%s>EPH A-Leak%8.4f   </font>",
-#               ${$h{ALEAK}}[3], ${$h{ALEAK}}[1];
+$s .= sprintf "<font color=%s>Ephin Temp%8.4f   </font>",
+               ${$h{"5EPHINT"}}[3], ${$h{"5EPHINT"}}[1];
 $s .= sprintf "<font color=%s>UpLCmdAcc%6d   </font>\n",
                ${$h{CULACC}}[3], ${$h{CULACC}}[1];
 #$s .= sprintf "<font color=%s>P4GM%11.1f</font>\n",
@@ -345,8 +345,8 @@ $s .= sprintf "<font color=%s>Yaw Mom.   %8.3f    </font></a>",
                ${$h{AOSYMOM3}}[3], ${$h{AOSYMOM3}}[1];
 $s .= sprintf "<font color=%s>SCS 133  %4s       </font>",
                ${$h{COSCS133S}}[3], ${$h{COSCS133S}}[1];
-$s .= sprintf "<font color=%s>EPH B-Leak%8.4f   </font>",
-               ${$h{"5EHSE500"}}[3], ${$h{"5EHSE500"}}[1];
+$s .= sprintf "<font color=%s>EIO Temp%8.4f   </font>",
+               ${$h{"5EIOT"}}[3], ${$h{"5EIOT"}}[1];
 $s .= sprintf "<font color=%s>Cmd Rej A%6d   </font>\n",
                ${$h{CMRJCNTA}}[3], ${$h{CMRJCNTA}}[1];
 #$s .= sprintf "<font color=%s>P41GM%10.1f</font>\n",
@@ -633,8 +633,8 @@ printf S "RadMon     %4s<br/>\n", ${$h{CORADMEN}}[1];
 #printf S "E1300%10.1f<br/>\n", ${$h{E1300}}[1];
 printf S "P4GM%11.1f<br/>\n", ${$h{P4GM}}[1];
 printf S "P41GM%10.1f<br/>\n", ${$h{P41GM}}[1];
-#printf S "EPHALeak%8.4f<br/>\n", ${$h{ALEAK}}[1];
-printf S "EPHBLeak%8.4f<br/>\n", ${$h{"5EHSE500"}}[1];
+printf S "EPHINTemp%8.2f<br/>\n", ${$h{"5EPHINT"}}[1];
+printf S "EIO Temp%8.2f<br/>\n", ${$h{"5EOIT"}}[1];
 printf S "EPHTemp%8.2f<br/>\n", ${$h{TEPHIN}}[1];
 #printf S "EPH27I%8.2f<br/>\n", ${$h{"5HSE202"}}[1];
 #printf S "EPH27V%8.2f<br/>\n", ${$h{ACV_P27V}}[1];
@@ -778,8 +778,8 @@ printf S "RadMon     %4s \*%1s\n", ${$h{CORADMEN}}[1], ${$h{CORADMEN}}[2];
 #printf S "E1300%10.1f \*%1s\n", ${$h{E1300}}[1], ${$h{E1300}}[2];
 printf S "P4GM%11.1f \*%1s\n", ${$h{P4GM}}[1], ${$h{P4GM}}[2];
 printf S "P41GM%10.1f \*%1s\n", ${$h{P41GM}}[1], ${$h{P41GM}}[2];
-#printf S "EPHALeak%8.4f \*%1s\n", ${$h{ALEAK}}[1], ${$h{ALEAK}}[2];
-printf S "EPHBLeak%8.4f \*%1s\n", ${$h{"5EHSE500"}}[1], ${$h{"5EHSE500"}}[2];
+printf S "EPHINTemp%8.2f \*%1s\n", ${$h{"5EPHINT"}}[1], ${$h{"5EPHINT"}}[2];
+printf S "EIOTemp%8.2f \*%1s\n", ${$h{"5EIOT"}}[1], ${$h{"5EIOT"}}[2];
 printf S "EPHTemp%8.2f \*%1s\n", ${$h{TEPHIN}}[1],${$h{TEPHIN}}[2];
 close S;
 

@@ -25,8 +25,8 @@ cp -f $git_dir/snapshot/snaps2.par $snapdir_primary/Snapshot/
 diff $git_dir/snapshot/snaps2_alerts.par $snapdir_primary/Snapshot/snaps2_alerts.par
 cp -f $git_dir/snapshot/snaps2_alerts.par $snapdir_primary/Snapshot/
 
-diff $git_dir/snapshot/snaps2_noalerts.par $snapdir_primary/Snapshot/snaps2_noalerts.par
-cp -f $git_dir/snapshot/snaps2_noalerts.par $snapdir_primary/Snapshot/
+diff $git_dir/snapshot/chandra-msids.list $snapdir_primary/Snapshot/chandra-msids.list
+cp -f $git_dir/snapshot/chandra-msids.list $snapdir_primary/Snapshot/
 
 
 
