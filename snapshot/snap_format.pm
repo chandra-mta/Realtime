@@ -296,7 +296,7 @@ $s .= sprintf "<font color=%s>HRMA power  %7.2f    </font>",
                ${$h{OHRMAPWR}}[3], ${$h{OHRMAPWR}}[1];
 $s .= sprintf "<font color=%s>SCS 128  %4s       </font>",
                ${$h{COSCS128S}}[3], ${$h{COSCS128S}}[1];
-$s .= sprintf "<font color=%s>-Y SA Amps %7.2f   </font>",
+$s .= sprintf "<font color=%s>-Y SA Amps %7.2f   </font>\n",
                ${$h{ESAMYI}}[3], ${$h{ESAMYI}}[1];
 #$s .= sprintf "<font color=%s>EPHIN Geom %4s</font>\n",
 #               ${$h{GEOM}}[3], ${$h{GEOM}}[1];
@@ -306,7 +306,7 @@ $s .= sprintf "<font color=%s>OBA power   %7.2f    </font>",
                ${$h{OOBAPWR}}[3], ${$h{OOBAPWR}}[1];
 $s .= sprintf "<font color=%s>SCS 129  %4s       </font>",
                ${$h{COSCS129S}}[3], ${$h{COSCS129S}}[1];
-$s .= sprintf "<font color=%s>+Y SA Temp %7.2f   </font>",
+$s .= sprintf "<font color=%s>+Y SA Temp %7.2f   </font>\n",
                ${$h{TSAPYT}}[3], ${$h{TSAPYT}}[1];
 #$s .= sprintf "<font color=%s>E150%11.1f</font>\n",
 #               ${$h{E150}}[3], ${$h{E150}}[1];
@@ -314,7 +314,7 @@ $s .= sprintf "<font color=%s>+Y SA Temp %7.2f   </font>",
 $s .= sprintf "                       ";
 $s .= sprintf "<font color=%s>SCS 130  %4s       </font>",
                ${$h{COSCS130S}}[3], ${$h{COSCS130S}}[1];
-$s .= sprintf "<font color=%s>-Y SA Temp %7.2f   </font>",
+$s .= sprintf "<font color=%s>-Y SA Temp %7.2f   </font>\n",
                ${$h{TSAMYT}}[3], ${$h{TSAMYT}}[1];
 #$s .= sprintf "<font color=%s>E300%11.1f</font>\n",
 #               ${$h{E300}}[3], ${$h{E300}}[1];
@@ -322,7 +322,7 @@ $s .= sprintf "<font color=%s>-Y SA Temp %7.2f   </font>",
 $s .= sprintf '<a href="http://cxc.harvard.edu/mta/DAILY/mta_rt/mom_plot.html" STYLE="text-decoration: none" target="blank">';
 $s .= sprintf "<font color=%s>Roll Mom.  %8.3f    </font></a>",
                ${$h{AOSYMOM1}}[3], ${$h{AOSYMOM1}}[1];
-$s .= sprintf "<font color=%s>SCS 131  %4s                            </font>",
+$s .= sprintf "<font color=%s>SCS 131  %4s                            </font>\n",
                ${$h{COSCS131S}}[3], ${$h{COSCS131S}}[1];
 #$s .= sprintf "<font color=%s>E1300%10.1f</font>\n",
 #               ${$h{E1300}}[3], ${$h{E1300}}[1];
@@ -345,7 +345,7 @@ $s .= sprintf "<font color=%s>Yaw Mom.   %8.3f    </font></a>",
                ${$h{AOSYMOM3}}[3], ${$h{AOSYMOM3}}[1];
 $s .= sprintf "<font color=%s>SCS 133  %4s       </font>",
                ${$h{COSCS133S}}[3], ${$h{COSCS133S}}[1];
-$s .= sprintf "<font color=%s>EIO Temp%8.4f   </font>",
+$s .= sprintf "<font color=%s>EIO Temp%10.4f   </font>",
                ${$h{"5EIOT"}}[3], ${$h{"5EIOT"}}[1];
 $s .= sprintf "<font color=%s>Cmd Rej A%6d   </font>\n",
                ${$h{CMRJCNTA}}[3], ${$h{CMRJCNTA}}[1];
@@ -363,8 +363,9 @@ $s .= sprintf "<font color=%s>EPH temp %9.2f   </font>\n",
 #$s .= sprintf "<font color=%s>PMTANKP     %8.3f </font>%23s<font color=%s>EPH temp %9.2f</font>\n",${$h{PMTANKP}}[3],${$h{PMTANKP}}[1]," ",${$h{TEPHIN}}[3], ${$h{TEPHIN}}[1];
 
 $s .= sprintf '<a href="http://cxc.harvard.edu/mta/DAILY/mta_rt/iru_plot.html" STYLE="text-decoration: none" target="blank">';
-$s .= sprintf "<font color=%s>Gyro 2 Curr 1 %6.2f</font></a>   ", 
+$s .= sprintf "<font color=%s>Gyro 2 Curr 1 %6.2f</font></a>                   ", 
                ${$h{AIRU2G1I}}[3], ${$h{AIRU2G1I}}[1];
+$s .= sprintf "                      ";
 #if ((${$h{"5EHSE106"}}[1]) % 2 == 1) {
 #  $s .= sprintf "%18s<font color=%s>  EPH 27V  %9.2f</font></a>", 
 #                 " ",${$h{"5HSE202"}}[3], ${$h{"5HSE202"}}[1];
