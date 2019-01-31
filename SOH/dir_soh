@@ -1,0 +1,5 @@
+/home/lduque/git/Realtime/SOH/LIB	:lib_dir
+/home/lduque/git/Realtime/SOH		:work_dir
+/home/lduque/mounts/mta4/www/SOH	:tl_dir
+/home/lduque/git/Realtime/snapshot	:snap_dir
+/home/lduque/mounts/mta4/www/Snapshot	:tl_snap_dir
