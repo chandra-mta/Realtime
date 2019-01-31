@@ -1,6 +1,19 @@
 #! /usr/bin/perl -w
 
-$infile = "/data/mta4/space_weather/G13data";
+my $dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather';
+open(my $IN, "<",$dir) or die "Cannot open $dir\n";
+
+my %dir_vars;
+
+while (<$IN>){
+        chomp;
+        my($value, $key) = split(/\s*:\s*/, $_);
+        $dir_vars{$key} = $value;
+}
+
+$SPACE_Wdir = $dir_vars{'SPACE_Wdir'};
+
+$infile = $SPACE_Wdir."/G13data";
 $goes_hrc_proxy_lim = 195000;  # Hz ~ 3 x SCS107 trip limit (= 3 x 256 x 248)
 
 $lockdir = "/tmp/mta";
@@ -30,7 +43,8 @@ while (<IN>) {
             print OUT "see http://cxc.cfa.harvard.edu/mta/G13.html\n";
             print OUT "This message sent to sot_ace_alert\n";
             close OUT;
-            `cat $lockfile | mailx -s "GOES HRC proxy" sot_ace_alert\@cfa.harvard.edu`;
+            #`cat $lockfile | mailx -s "GOES HRC proxy" sot_ace_alert\@cfa.harvard.edu`;
+            `cat $lockfile | mailx -s "GOES HRC proxy" lpulgarinduque\@cfa.harvard.edu`;
         }
     }
 }

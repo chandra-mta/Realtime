@@ -2,7 +2,7 @@
 ##!/proj/axaf/bin/perl
 
 # only let one copy run at once
-my $lock = "/home/mta/.rt1_safe_on";
+my $lock = "/home/lduque/.rt1_safe_on";
 if (-e $lock) {
   exit;
   #die("waiting for last one to finish\n");
@@ -13,17 +13,29 @@ if (-e $lock) {
 # if tracelogs have been updated in the past $time minutes
 my $time = 5.0;
 
+my $dir = '/home/lduque/git/Realtime/SOH/dir_soh';
+
+open(my $IN, "<",$dir) or die "Cannot open $dir\n";
+
+my %dir_vars;
+
+while (<$IN>){
+        chomp;
+        my($value, $key) = split(/\s*:\s*/, $_);
+        $dir_vars{$key} = $value;
+}
+
 # directory to look for updated tracelogs
-my $work_dir = "/data/mta4/www/Snapshot";
+my $work_dir = $dir_vars{'tl_snap_dir'};
 # directory to run snapshot
-my $snap_dir = "/data/mta4/www/Snapshot";
+my $snap_dir = $dir_vars{'snap_dir'};
 # directory to run SOH
-my $soh_dir = "/data/mta4/www/SOH";
+my $soh_dir = $dir_vars{'work_dir'};
 # directory to run rt data browser
 #$browser_dir = "/data/mta/www/mta_telem/mta_rt";
 
 #my $HOME = $ENV{HOME};
-my $HOME = "/home/mta";
+my $HOME = "/home/lduque";
 
 # lock file, if this file exists, we're AOS
 # let main rt_checker handle this

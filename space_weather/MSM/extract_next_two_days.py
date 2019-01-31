@@ -1,4 +1,4 @@
-#!/usr/bin/env /proj/sot/ska/bin/python
+#!/usr/bin/env /usr/bin/python
 
 #################################################################################
 #                                                                               #
@@ -25,6 +25,18 @@ import Chandra.Time
 #---- data from today to the end of 2nd day from today
 #---- output: ./gs_data_3_day
 #
+path = '/home/lduque/git/Realtime/space_weather/dir_list_py'
+
+f    = open(path, 'r')
+data = [line.strip() for line in f.readlines()]
+f.close()
+
+for ent in data:
+    atemp = re.split(':', ent)
+    var  = atemp[1].strip()
+    line = atemp[0].strip()
+    exec "%s = %s" %(var, line)
+
 
 stday = time.strftime("%Y:%j", time.gmtime())
 chk   = float(time.strftime("%H", time.gmtime()))
@@ -36,7 +48,7 @@ else:
 start = Chandra.Time.DateTime(stday).secs
 stop  = start + 2.0 * 86400.0
 
-f     = open('/data/mta4/proj/rac/ops/ephem/PE.EPH.gsme_in_Re', 'r')
+f     = open(rac_ops_dir+'/ephem/PE.EPH.gsme_in_Re', 'r')
 data  = [line.strip() for line in f.readlines()]
 f.close()
 

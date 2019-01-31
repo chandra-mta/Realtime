@@ -135,6 +135,8 @@ sub do_comps {
 
   $utc = `date -u +"%Y:%j:%T (%b%e)"`;
   chomp $utc;
+  $now = time_now();
+  print "UTC: $utc, now:$now\n";
   $h{UTC} = [time_now(), $utc, "", "white"];
    
   return %h;

@@ -1,8 +1,12 @@
 #! /bin/tcsh -f
 
+set dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather'
+foreach line ("`cat $dir`")
+        set split = ($line:as/:/ /)
+        set $split[2] = $split[1]
+end
 
-set SPACE_Wdir=/data/mta4/space_weather
-set WEBdir=/data/mta4/www
+#space weather dir is set above as is webdir
 
 #set today=`date '+%y%m%d'`
 

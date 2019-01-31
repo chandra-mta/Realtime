@@ -363,6 +363,6 @@ endwhile ; while (yr(fi) ge leap) do begin
 xyouts, 0.08, 0.001, 'start DOY: '+strcompress(string(fix(doy)),/remove_all), $
         charsize = 0.8,/norm
 
-write_gif,'/data/mta4/www/mta_ace_plot_P3.gif',tvrd()
+write_gif,'/home/lduque/git/Realtime/space_weather/test_files_web/mta_ace_plot_P3.gif',tvrd()
 
 end

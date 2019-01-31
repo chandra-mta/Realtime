@@ -1,4 +1,4 @@
-#!/usr/bin/env /proj/sot/ska/bin/python
+#!/usr/bin/env /usr/bin/python
 
 #################################################################################################
 #                                                                                               #
@@ -23,7 +23,8 @@ import math
 #
 #--- reading directory list
 #
-path = '/data/mta/Script/Python_script2.7/dir_list_py'
+#path = '/data/mta/Script/Python_script2.7/dir_list_py'
+path = '/home/lduque/git/Realtime/space_weather/dir_list_py'
 
 f    = open(path, 'r')
 data = [line.strip() for line in f.readlines()]
@@ -58,7 +59,7 @@ tcorrect = (28.0 * 365.0 + 8.0) * 3600.0 * 24.0
 earth      =  6378.0
 alt_limit  = 80000.0 + earth
 l1_limit   = 10
-alert_file = '/pool1/mta_XMM_alert'
+alert_file = pool_dir + 'mta_XMM_alert'
 
 #--------------------------------------------------------------------------
 #-- run_test: check the latest count Il count rate and xmm orbital altitude 
@@ -172,10 +173,11 @@ def run_test():
         fo.write(line)
         fo.close()
 
-        cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert \n\" swolk@cfa.harvard.edu' 
+        #cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert \n\" swolk@cfa.harvard.edu' 
+        cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert \n\" lpulgarinduque@cfa.harvard.edu' 
         os.system(cmd)
-        cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert \n\" tisobe@cfa.harvard.edu' 
-        os.system(cmd)
+        #cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert \n\" tisobe@cfa.harvard.edu' 
+        #os.system(cmd)
 
         cmd = 'rm ' + zspace
         os.system(cmd)
@@ -202,7 +204,7 @@ def read_xmm_orbit():
 #
 #--- read xmm orbital elements
 #
-    cxofile = "/data/mta4/proj/rac/ops/ephem/TLE/xmm.spctrk"
+    cxofile = rac_ops_dir + "ephem/TLE/xmm.spctrk"
     f       = open(cxofile, 'r')
     data    = [line.strip() for line in f.readlines()]
     f.close()
@@ -249,7 +251,7 @@ def l1_median():
 #
 #--- read the data
 #
-    file = '/data/mta4/space_weather/XMM/xmm.archive'
+    file = space_wdir_read + 'XMM/xmm.archive'
     f    = open(file, 'r')
     data = [line.strip() for line in f.readlines()]
     f.close()
@@ -345,10 +347,11 @@ def keep_record(time, alt, l1):
     fo.write(line)
     fo.close()
 
-    cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert (TEST 2)\n\" tisobe@cfa.harvard.edu' 
+    #cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert (TEST 2)\n\" tisobe@cfa.harvard.edu' 
+    cmd = 'cat ' + zspace + '|mailx -s\"Subject: mta_XMM_alert (TEST 2)\n\" lpulgarinduque@cfa.harvard.edu' 
     os.system(cmd)
 
-    fo = open('/data/mta4/space_weather/XMM/alt_trip_records', 'a')
+    fo = open(space_wdir_write + 'XMM/alt_trip_records', 'a')
     line = str(time) + ': ' + str(chigh) + '\t\t' + str(l1) + '\n'
     fo.write(line)
     fo.close()

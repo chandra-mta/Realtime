@@ -22,8 +22,14 @@
 #scrapper>mv prot_violate_ESTKP  prot_violate_ESTKP.08Jun2000
 #scrapper>mv prot_violate prot_violate.08Jun2000
 
-set SPACE_Wdir=/data/mta4/space_weather
-set WEBdir=/data/mta4/www
+set dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather'
+foreach line ("`cat $dir`")
+        set split = ($line:as/:/ /)
+        set $split[2] = $split[1]
+end
+
+#set SPACE_Wdir=/data/mta4/space_weather
+#set WEBdir=/data/mta4/www
 
 #set today=`date '+%y%m%d'`
 
@@ -88,7 +94,7 @@ wget -q -O$WEBdir/wingkp.gif http://services.swpc.noaa.gov/images/wing-kp-24-hou
 
 cat $SPACE_Wdir/header_fast $SPACE_Wdir/acedata_fast  $SPACE_Wdir/image_fast $SPACE_Wdir/rob1 $SPACE_Wdir/footer >! $WEBdir/ace_fast.html
 
-cp returned_fast /data/mta4/www
+cp returned_fast $WEBdir
 
 #cat $SPACE_Wdir/header_i $SPACE_Wdir/acedata  $SPACE_Wdir/image_i  $SPACE_Wdir/rob1 $SPACE_Wdir/footer >! $WEBdir/ace_i.html
 

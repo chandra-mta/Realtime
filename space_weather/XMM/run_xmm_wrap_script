@@ -1,1 +1,1 @@
-/bin/tcsh  < /data/mta4/space_weather/XMM/run_xmm_main_script
+/bin/tcsh  < /home/lduque/git/Realtime/space_weather/XMM/run_xmm_main_script

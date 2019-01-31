@@ -13,27 +13,36 @@ use snap;
 
 # define the working directory for the snapshots
 
-#$work_dir = "/proj/ascwww/AXAF/extra/science/cgi-gen/mta/Snap";
-$work_dir = "/data/mta4/www/Snapshot";
-$web_dir = "/data/mta4/www/Snapshot";
-#$web_dir = "/proj/ascwww/AXAF/extra/science/cgi-gen/mta/Snap";
-$wap_dir = "/data/mta4/www/WL/Snap_dat";
-$text_ver = "./chandra.snapshot";
-$pool_ver = "/pool14/chandra/chandra_psi.snapshot";
-$check_comm_file = "/home/mta/Snap/check_comm_fail"; # file to write if 
-                                        # check comm fails and alert is sent
-$check_comm_file_bu="/home/mta/Snap/check_comm_fail_bu";
-$check_comm_sent="/home/mta/Snap/check_comm_sent";
+my $dir = '/home/lduque/git/Realtime/snapshot/dir_snapshot';
+open(my $IN, "<",$dir) or die "Cannot open $dir\n";
 
-#`cp /proj/rac/ops/CRM3/CRMsummary.dat $web_dir`;   # copy so DMZ can see it 11/16/10 bds
-`cp /proj/rac/ops/CRM2/CRMsummary.dat $web_dir`;   # copy so DMZ can see it 11/16/10 bds
+my %dir_vars;
+
+while (<$IN>){
+        chomp;
+        my($value, $key) = split(/\s*:\s*/, $_);
+        $dir_vars{$key} = $value;
+}
+
+$work_dir = $dir_vars{'work_dir'};
+$web_dir = $dir_vars{'web_dir'};
+$wap_dir = $dir_vars{'wap_dir'};
+$text_ver = "./chandra.snapshot";
+#$pool_ver = "/pool14/chandra/chandra_psi.snapshot";
+$check_comm_file = "$dir_vars{'snap_dir'}/check_comm_fail"; # file to write if 
+                                        # check comm fails and alert is sent
+$check_comm_file_bu = "$dir_vars{'snap_dir'}/check_comm_fail_bu";
+$check_comm_sent = "$dir_vars{'snap_dir'}/check_comm_sent";
+$mta4_dir = $dir_vars{'mta4_dir'};
+
+#`cp /proj/rac/ops/CRM2/CRMsummary.dat $web_dir`;   # copy so DMZ can see it 11/16/10 bds
+`cp $mta4_dir/proj/rac/ops/CRM2/CRMsummary.dat $web_dir`;
 
 my @ftype = qw(ACA CCDM EPHIN EPS PCAD IRU SIM-OTG SI TEL EPS-SFMT NORM-SFMT);
 
 # see if a tlogr is already running, but if too many 
 #  iterations have been skipped something is wrong, so start a new one.
-#my $lock = '/proj/ascwww/AXAF/extra/science/cgi-gen/mta/Snap/.on';
-my $lock = '/data/mta4/www/Snapshot/.on';
+my $lock = "$dir_vars{'work_dir'}/.on";
 if (-s $lock) {
   open(LOCK, $lock);
   my $errs = 0;
@@ -62,69 +71,69 @@ foreach $f (@tlfiles) {
 #if (exists($ARGV[0]) && $ARGV[0] == "-f") { $aos=1; }
 if ($ARGV[0] =~ m/-f/) { $aos=1; }
 if (! $aos) {
-  unlink "/home/mta/Snap/.gyrowait";
+  unlink "/home/lduque/Snap/.gyrowait";
   use snap_format;
   update_txt("$text_ver"); #save a local copy and then copy
-  `cp $text_ver $pool_ver`;#do in two steps to avoid dependancy on pool space
+  #`cp $text_ver $pool_ver`;#do in two steps to avoid dependancy on pool space
 
   # update wireless current page
-  %h = get_curr;
-  %h = get_curr(%h);
+  #%h = get_curr;
+  #%h = get_curr(%h);
   $utc = `date -u +"%Y:%j:%T (%b%e)"`;
   chomp $utc;
   $h{UTC} = [time_now(), $utc, "", "white"];
-  $snapf = "$wap_dir/../snap_curr.wml";
-  open(SF,">$snapf") or die "Cannot open $snapf\n";
-  print SF write_curr_wap(%h);
-  close SF;
-  $snapf = "$wap_dir/snap_curr.txt";
-  open(SF,">$snapf") or die "Cannot open $snapf\n";
-  print SF write_curr_wap_arc(%h);
-  close SF;
-  # see if we should be aos
-  check_comm($check_comm_file);
-  # if no data on primary or backup, send alert
-  if (-s $check_comm_file && -s $check_comm_file_bu && ! -s $check_comm_sent && &time_test($check_comm_file,20)) {
-    `cp $check_comm_file $check_comm_sent`;
-    #`cat $check_comm_file | mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu`;
-    #`cat $check_comm_file | mailx -s 'check_comm' sot_lead\@cfa.harvard.edu msobolewska\@cfa.harvard.edu jnichols\@cfa.harvard.edu`;
-    `cat $check_comm_file | mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com`;
-  } # if (-s $check_comm_file && -s $check_comm_file_bu && 
-  # give backup control of alerts, in case it sees data
-  if (! -e "/home/mta/Snap/.alerts_bu") {
-    `cp check_state_alerts.pm /home/mta/Snap/check_state.pm`;
-    `cp snaps2_alerts.par /home/mta/Snap/snaps2.par`;
-    `date > /home/mta/Snap/.alerts_bu`;
-  } # if (! -e "/home/mta/Snap/.alerts_bu") {
-  exit();
+  #$snapf = "$wap_dir/../snap_curr.wml";
+  #open(SF,">$snapf") or die "Cannot open $snapf\n";
+  #print SF write_curr_wap(%h);
+  #close SF;
+  #$snapf = "$wap_dir/snap_curr.txt";
+  #open(SF,">$snapf") or die "Cannot open $snapf\n";
+  #print SF write_curr_wap_arc(%h);
+  #close SF;
+  ## see if we should be aos
+  #check_comm($check_comm_file);
+  ## if no data on primary or backup, send alert
+  #if (-s $check_comm_file && -s $check_comm_file_bu && ! -s $check_comm_sent && &time_test($check_comm_file,20)) {
+    #`cp $check_comm_file $check_comm_sent`;
+    ##`cat $check_comm_file | mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu`;
+    ##`cat $check_comm_file | mailx -s 'check_comm' sot_lead\@cfa.harvard.edu msobolewska\@cfa.harvard.edu jnichols\@cfa.harvard.edu`;
+    #`cat $check_comm_file | mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com`;
+  #} # if (-s $check_comm_file && -s $check_comm_file_bu && 
+  ## give backup control of alerts, in case it sees data
+  #if (! -e "/home/mta/Snap/.alerts_bu") {
+    #`cp check_state_alerts.pm /home/mta/Snap/check_state.pm`;
+    #`cp snaps2_alerts.par /home/mta/Snap/snaps2.par`;
+    #`date > /home/mta/Snap/.alerts_bu`;
+  #} # if (! -e "/home/mta/Snap/.alerts_bu") {
+  #exit();
 }
 
 # take control of alerts
-if (-e "/home/mta/Snap/.alerts_bu") {
-  `cp check_state_noalerts.pm /home/mta/Snap/check_state.pm`;
-  `cp snaps2_noalerts.par /home/mta/Snap/snaps2.par`;
-  `/usr/bin/rm /home/mta/Snap/.alerts_bu`;
-} # if (-e "/home/mta/Snap/.alerts_bu") {
-# start check_comm all clear e-mails
-if (-s $check_comm_file) {
-  open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com";
-  print MAIL "Rhodes data flow resumed.\n";
-  close MAIL;
-  unlink $check_comm_file;
-} # if (-s $check_comm_file) {
+#if (-e "/home/mta/Snap/.alerts_bu") {
+  #`cp check_state_noalerts.pm /home/mta/Snap/check_state.pm`;
+  #`cp snaps2_noalerts.par /home/mta/Snap/snaps2.par`;
+  #`/usr/bin/rm /home/mta/Snap/.alerts_bu`;
+#} # if (-e "/home/mta/Snap/.alerts_bu") {
+## start check_comm all clear e-mails
+#if (-s $check_comm_file) {
+  #open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com";
+  #print MAIL "Rhodes data flow resumed.\n";
+  #close MAIL;
+  #unlink $check_comm_file;
+#} # if (-s $check_comm_file) {
 
-#if (! -s $check_comm_file && ! -s $check_comm_file_bu && -s $check_comm_sent) {
-if (! -s $check_comm_file && -s $check_comm_sent) {
-  #open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu";
-  #open MAIL, "| mailx -s 'check_comm' sot_lead\@cfa.harvard.edu msobolewska\@cfa.harvard.edu jnichols\@cfa.harvard.edu";
-  open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com";
-  print MAIL "Real-time data flow has resumed.\n";
-  close MAIL;
-  unlink $check_comm_sent;
-} #if (! -s $check_comm_file && ! -s $check_comm_file_bu && 
-# end check_comm all clear e-mails
+##if (! -s $check_comm_file && ! -s $check_comm_file_bu && -s $check_comm_sent) {
+#if (! -s $check_comm_file && -s $check_comm_sent) {
+  ##open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu";
+  ##open MAIL, "| mailx -s 'check_comm' sot_lead\@cfa.harvard.edu msobolewska\@cfa.harvard.edu jnichols\@cfa.harvard.edu";
+  #open MAIL, "| mailx -s 'check_comm' msobolewska\@cfa.harvard.edu swolk\@cfa.harvard.edu 6177214360\@vtext.com";
+  #print MAIL "Real-time data flow has resumed.\n";
+  #close MAIL;
+  #unlink $check_comm_sent;
+#} #if (! -s $check_comm_file && ! -s $check_comm_file_bu && 
+## end check_comm all clear e-mails
 
-`date > $lock`;
+#`date > $lock`;
 #unlink "/home/mta/Snap/.britwait";
 #unlink "/home/mta/Snap/.cpewait";
 #unlink "/home/mta/Snap/.ctxvwait";
@@ -143,19 +152,22 @@ use comps;
 %h = set_status(%h, get_curr(%h));
 
 # check state
-use check_state;
-#use check_state_test;
+#use check_state;
+use check_state_test;
+#use check_state_noalerts;
 #use check_state_sim;
 %h = check_state(%h);
 
-#foreach $msid ( keys %h ) {
-    #print "$msid: @{ $h{$msid} }\n";
-#}
+foreach $msid ( keys %h ) {
+    if ( $msid eq "FLUXACE" || $msid eq "KP"){
+        print "$msid: @{ $h{$msid} }\n";
+    }
+}
 
 use snap_format;
 my $snap_text = write_txt(%h);
 my $snap_html = write_htm(%h);
-#my $snap_wap = write_wap(%h);
+my $snap_wap = write_wap(%h);
 my $snap_curr_wap = write_curr_wap(%h);
 my $curr_wap_txt = write_curr_wap_arc(%h);
 
@@ -191,7 +203,7 @@ $snapf = $text_ver;
 open(SF,">$snapf") or die "Cannot create $snapf\n";
 print SF $snap_text;
 close SF;
-`cp $text_ver $pool_ver`;
+#`cp $text_ver $pool_ver`;
 
 #$snapf = "$work_dir/chandra.snapshot";
 #open(SF,">$snapf") or die "Cannot create $snapf\n";
@@ -234,8 +246,8 @@ close SF;
 #close SF;
 write_wap(%h);
 write_wap_arc(%h);
-$snapf = "/data/mta4/www/WL/snap_curr.wml";
-open(SF,">$snapf") or die "Cannot open $snapf\n";
+$snapf = "$web_dir/snap_curr.wml";#this will need to change
+open(SF,">$snapf") or die "Cannot open $snapf: $!\n";
 print SF $snap_curr_wap;
 close SF;
 $snapf = "$wap_dir/snap_curr.$date";
@@ -249,7 +261,7 @@ close SF;
 
 unlink $lock;
 
-`/opt/local/bin/idl plot > /dev/null`;  # make plots
+#`/opt/local/bin/idl plot > /dev/null`;  # make plots
 #end
 #replace cronjob sleep 60;
 #replace cronjob }

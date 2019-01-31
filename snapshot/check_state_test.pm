@@ -54,12 +54,13 @@ sub check_state {
 
       # don't check stale data, color already set by set_status
       my $status = ${$hash{"$chk[0]"}}[2];
+      #print "State Checking Status: $status $check\n"; #debug
       if ($status eq "S" || $status eq "I") {
         next;
       }
 
       $val = ${$hash{"$chk[0]"}}[1];
-
+      #print "State Check Color: $chk[1] $check\n"; #debug
       # unchecked
       if ($chk[1] == 0) {
         $color = $BLU;
@@ -85,6 +86,7 @@ sub check_state {
         if ($val >= $chk[3] && $chk[3] ne '-') {$color = $YLW;}
         if ($val <= $chk[4] && $chk[4] ne '-') {$color = $RED;}
         if ($val >= $chk[5] && $chk[5] ne '-') {$color = $RED;}
+	#print "Color check 2: $color $check\n";
       }
 
       # use a constant
@@ -123,6 +125,7 @@ sub check_state {
       if ($color eq $YLW) { $hash{$chk[0]}[2] = "Y"; }
       if ($color eq $RED) { $hash{$chk[0]}[2] = "R"; }
       if ($color eq $UNDEF) { $hash{$chk[0]}[2] = "U"; }
+      #print "Hashes color: $hash{$chk[0]}[3] $hash{$chk[0]}[2] $check\n";
     }
 
     return %hash;
@@ -261,27 +264,27 @@ sub letg {
 #    return $color;
 #}
 
-sub e1300 {
-    my $val = $_[0];
-    my $radmon = ${$hash{CORADMEN}}[1];
-    if ($radmon eq 'ENAB') {
-      if ($val < 333) {$color = $GRN;}
-      if ($val >= 333) {$color = $YLW;}
-      if ($val >= 1000) {$color = $RED;}
-    } else {$color = $BLU;}
-    return $color;
-}
+#sub e1300 {
+#    my $val = $_[0];
+#    my $radmon = ${$hash{CORADMEN}}[1];
+#    if ($radmon eq 'ENAB') {
+#      if ($val < 333) {$color = $GRN;}
+#      if ($val >= 333) {$color = $YLW;}
+#      if ($val >= 1000) {$color = $RED;}
+#    } else {$color = $BLU;}
+#    return $color;
+#}
 
-sub e150 {
-    my $val = $_[0];
-    my $radmon = ${$hash{CORADMEN}}[1];
-    if ($radmon eq 'ENAB') {
-      if ($val < 266666) {$color = $GRN;}
-      if ($val >= 266666) {$color = $YLW;}
-      if ($val >= 800000) {$color = $RED;}
-    } else {$color = $BLU;}
-    return $color;
-}
+#sub e150 {
+#    my $val = $_[0];
+#    my $radmon = ${$hash{CORADMEN}}[1];
+#    if ($radmon eq 'ENAB') {
+#      if ($val < 266666) {$color = $GRN;}
+#      if ($val >= 266666) {$color = $YLW;}
+#      if ($val >= 800000) {$color = $RED;}
+#    } else {$color = $BLU;}
+#    return $color;
+#}
 
 sub detart {
     my $val = $_[0];
@@ -1192,7 +1195,7 @@ sub send_tank_red {
     print FILE "http://cxc.harvard.edu/cgi-gen/mta/Snap/snap.cgi\n"; #debug
     close FILE;
     #open MAIL, "|mailx -s PMTANKP sot_red_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w PMTANKP' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w PMTANKP' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1217,7 +1220,7 @@ sub send_tank_yellow {
     print FILE "http://cxc.harvard.edu/cgi-gen/mta/Snap/snap.cgi\n"; #debug
     close FILE;
     #open MAIL, "|mailx -s PMTANKP sot_yellow_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w PMTANKP' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w PMTANKP' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1281,7 +1284,7 @@ sub send_107_alert {
     close FILE;
 
     #open MAIL, "|mailx -s 'SCS107 telecon 111165\# now' sot_red_alert\@head.cfa.harvard.edu operators\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w SCS107: telecon 111165\# now' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w SCS107: telecon 111165\# now' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1338,7 +1341,7 @@ sub send_nsun_alert {
     close FILE;
 
     #open MAIL, "|mailx -s NSUN sot_red_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w NSUN: telecon 111165\# now' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w NSUN: telecon 111165\# now' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1366,7 +1369,7 @@ sub send_sim_unsafe_alert {
     close FILE;
 
     #open MAIL, "|mailx -s SIM_UNSAFE! swolk,malgosia";
-    open MAIL, "|mailx -s 'TEST c3po-w SIM_UNSAFE!' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w SIM_UNSAFE!' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1393,7 +1396,7 @@ sub send_hrc_shld_alert {
     close FILE;
 
     #open MAIL, "|mailx -s 'HRC SHIELD' sot_yellow_alert\@head.cfa.harvard.edu 6172573986\@mobile.mycingular.com";
-    open MAIL, "|mailx -s 'TEST c3po-w HRC SHIELD' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w HRC SHIELD' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1454,7 +1457,7 @@ sub send_brit_alert {
     close FILE;
 
     #open MAIL, "|mailx -s 'BRIT telecon 111165\# now' sot_red_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w BRIT: telecon 111165\# now' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w BRIT: telecon 111165\# now' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1511,7 +1514,7 @@ sub send_cpe_alert {
     close FILE;
 
     #open MAIL, "|mailx -s CPEstat malgosia\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w CPEstat' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w CPEstat' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1570,7 +1573,7 @@ sub send_fmt_alert {
     close FILE;
 
     #open MAIL, "|mailx -s 'FMT5: telecon 111165\# now' sot_safemode_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w FMT5: telecon 111165\# now' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w FMT5: telecon 111165\# now' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1627,7 +1630,7 @@ sub send_gyro_alert {
     close FILE;
 
     #open MAIL, "|mailx -s AIRU1G1I malgosia\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w AIRU1G1I' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w AIRU1G1I' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1652,7 +1655,7 @@ sub send_ctxpwr_alert {
     close FILE;
 
     #open MAIL, "|mailx -s CTXPWR sot_yellow_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w CTXPWR' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w CTXPWR' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1677,7 +1680,7 @@ sub send_ctxv_alert {
     close FILE;
 
     #open MAIL, "|mailx -s CTXV sot_yellow_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w CTXV' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w CTXV' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1702,7 +1705,7 @@ sub send_hkp27v_alert {
     close FILE;
 
     #open MAIL, "|mailx -s HKP27V swolk\@head.cfa.harvard.edu malgosia\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w HKP27V' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w HKP27V' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1727,7 +1730,7 @@ sub send_pline03t_alert {
     close FILE;
 
     #open MAIL, "|mailx -s PLINE03T sot_yellow_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w PLINE03T' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w PLINE03T' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1752,7 +1755,7 @@ sub send_pline04t_alert {
     close FILE;
 
     #open MAIL, "|mailx -s PLINE04T sot_yellow_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w PLINE04T' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w PLINE04T' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1776,7 +1779,7 @@ sub send_aacccdpt_yellow_alert {
     close FILE;
 
     #open MAIL, "|mailx -s AACCCDPT jeanconn,aldcroft,emartin,malgosia";
-    open MAIL, "|mailx -s 'TEST c3po-w AACCCDPT' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w AACCCDPT' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1801,7 +1804,7 @@ sub send_aacccdpt_red_alert {
     close FILE;
 
     #open MAIL, "|mailx -s AACCCDPT malgosia\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w AACCCDPT' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w AACCCDPT' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;
@@ -1827,7 +1830,7 @@ sub send_ldrtno_alert {
     close FILE;
 
     #open MAIL, "|mailx -s 3LDRTNO sot_red_alert\@head.cfa.harvard.edu";
-    open MAIL, "|mailx -s 'TEST c3po-w 3LDRTNO' malgosia\@head.cfa.harvard.edu";
+    open MAIL, "|mailx -s 'TEST c3po-w 3LDRTNO' lpulgarinduque\@cfa.harvard.edu";
     open FILE, $afile;
     while (<FILE>) {
       print MAIL $_;

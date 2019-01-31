@@ -2,8 +2,19 @@
 
 use lib '/home/mta/PERL';
 
+my $dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather';
+open(my $IN, "<",$dir) or die "Cannot open $dir\n";
+
+my %dir_vars;
+
+while (<$IN>){
+        chomp;
+        my($value, $key) = split(/\s*:\s*/, $_);
+        $dir_vars{$key} = $value;
+}
+
 #$infile="/data/mta4/space_weather/G11pchan";
-$infile="/data/mta4/space_weather/G15returned";
+$infile="$dir_vars{'SPACE_Wdir'}/G15returned";
 $P2_lim=30.0;
 $P5_lim=0.25;
 #$P2_lim=0.05; #test
@@ -37,7 +48,7 @@ while (<IN>) {
 
   # check that data is current
   $last_mjd = $jday+($secs/86400);
-  $last_time =  `/home/arots/bin/axTime3 $last_mjd u m u s`;
+  $last_time =  `/home/lduque/bin/axTime3 $last_mjd u m u s`;
   $time_diff = $curr_time-$last_time;
   #print "$last_time $curr_time $time_diff\n"; # debug
   
@@ -52,7 +63,7 @@ while (<IN>) {
         printf OUT " Limit: %6.2f\n", $P2_lim;
         close OUT;
         #`cat $p2y_lockfile | mailx -s "GOES Alert" sot_yellow_alert\@cfa.harvard.edu 6172573986\@mobile.mycingular.com`;
-        `cat $p2y_lockfile | mailx -s "GOES Alert TEST" msobolewska\@cfa.harvard.edu`;
+        `cat $p2y_lockfile | mailx -s "GOES Alert TEST" lpulgarinduque\@cfa.harvard.edu`;
       } # if ($p2_wait == 5) {
     } else { # if (!-s $lockfile) { # if an alert hasn't been sent, send one
       `date >> $p2y_lockfile`;  # touch $lockfile
@@ -71,7 +82,7 @@ while (<IN>) {
         printf OUT " Limit: %6.2f\n", $P5_lim;
         close OUT;
         #`cat $p5y_lockfile | mailx -s "GOES Alert" sot_yellow_alert\@cfa.harvard.edu 6172573986\@mobile.mycingular.com`;
-        `cat $p5y_lockfile | mailx -s "GOES Alert TEST" msobolewska\@cfa.harvard.edu`;
+        `cat $p5y_lockfile | mailx -s "GOES Alert TEST" lpulgarinduque\@cfa.harvard.edu`;
       } # if ($p5_wait == 5) {
     } else { # if (!-s $lockfile) { # if an alert hasn't been sent, send one
       `date >> $p5y_lockfile`;  # touch $lockfile

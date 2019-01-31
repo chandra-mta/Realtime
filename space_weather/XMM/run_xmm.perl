@@ -10,7 +10,8 @@
 #                                                                                           #
 #############################################################################################
 
-system("cp /stage/xmmops_ftp/radmon_02h.dat radmon_02h_curr.dat");
+#system("cp /stage/xmmops_ftp/radmon_02h.dat radmon_02h_curr.dat");
+system("cp /home/lduque/mounts/mta/space_weather/XMM/radmon_02h_curr.dat radmon_02h_curr.dat");
 #
 #--- check whether the file has data points. if there are less than 10 data entries
 #--- stop the farther operations

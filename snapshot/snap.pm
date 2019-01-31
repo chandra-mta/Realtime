@@ -2,6 +2,18 @@
 # BDS May 2001
 # last update: Oct 06, 2015  by T.I.
 
+my $dir = '/home/lduque/git/Realtime/snapshot/dir_snapshot';
+open(my $IN, "<",$dir) or die "Cannot open $dir\n";
+
+my %dir_vars;
+
+while (<$IN>){
+        chomp;
+        my($value, $key) = split(/\s*:\s*/, $_);
+        $dir_vars{$key} = $value;
+}
+
+
 sub get_data {
   my %h;
   # read the ACORN tracelog files
@@ -72,7 +84,9 @@ sub set_status {
   my %inh = @_;
   #my $ref_time = time_now();
   my $ref_time = $inh{OBT}[0];
+  #print "$_$inh{$_}\n" for (keys %inh);
   foreach $key (keys(%inh)) {
+    my $calc = $ref_time - $inh{$key}[0];
     if ($key eq "KP") {$stale_time = 3600;}
     if ($key eq "FLUXACE") {$stale_time = 1800;}
     if ($key eq "CRM") {$stale_time = 1800;}
@@ -132,7 +146,8 @@ sub get_curr {
 
   # read the ephemeris file
   #@ephem = split ' ',<EF> if open (EF, '/proj/rac/ops/ephem/gephem.dat');
-  @ephem = split ' ',<EF> if open (EF, '/data/mta4/proj/rac/ops/ephem/gephem.dat'); #--- ti 10/06/15
+  $gephem_file = "$dir_vars{'mta4_dir'}/proj/rac/ops/ephem/gephem.dat";
+  @ephem = split ' ',<EF> if open (EF, $gephem_file); #--- ti 10/06/15
   $h{EPHEM_ALT} = [$ephem[2], $ephem[0], "", "white"];
   $h{EPHEM_LEG} = [$ephem[2], $ephem[1], "", "white"];
   
@@ -140,15 +155,16 @@ sub get_curr {
   
   #$fluf = "/proj/rac/ops/ACE/fluace.dat";
   #$fluf = "/data/mta4/space_weather/ACE/fluace.dat";
-  $fluf = "/data/mta4/proj/rac/ops/ACE/fluace.dat";     #--- ti 10/06/15
+  #$fluf = "/data/mta4/proj/rac/ops/ACE/fluace.dat";     #--- ti 10/06/15
+  $fluf = "$dir_vars{'mta4_dir'}/proj/rac/ops/ACE/fluace.dat";
   if (open FF, $fluf) {
       @ff = <FF>;
       @fl = split ' ',$ff[-3];
       $fluxace = $fl[11];
       close FF;
   } else { print STDERR "$fluf not found!\n" };
-
   $h{FLUXACE} = [date2secs($fl[0], $fl[1], $fl[2], $fl[3]), $fl[11], "", "white"];
+  print "h fluxace : $h{FLUXACE}[0]\n";
   #$h{FLUXACE} = [date2secs($fl[0], $fl[1], $fl[2], $fl[3]), $fl[13]*36, "", "white"];
   
   # read the ACIS fluence
@@ -165,7 +181,8 @@ sub get_curr {
 
   # read the CRM fluence - replaces F_ACE in snapshot May 2001
   #####$fluf = "/proj/rac/ops/CRM3/CRMsummary.dat";
-  $fluf = "/data/mta4/proj/rac/ops/CRM3/CRMsummary.dat";        #--- ti 10/06/15
+  $fluf = "$dir_vars{'mta4_dir'}/proj/rac/ops/CRM3/CRMsummary.dat";
+  #$fluf = "/data/mta4/proj/rac/ops/CRM3/CRMsummary.dat";        #--- ti 10/06/15
   if (open FF, $fluf) {
       @ff = <FF>;
       @fl = split ' ',$ff[-1];
@@ -179,14 +196,15 @@ sub get_curr {
   # read the ACE Kp file
   
   #$kpf = "/proj/rac/ops/ACE/kp.dat";
-  $kpf = "/data/mta4/proj/rac/ops/ACE/kp.dat";  #--- ti 10/06/15
+  #$kpf = "/data/mta4/proj/rac/ops/ACE/kp.dat";  #--- ti 10/06/15
+  $kpf = "$dir_vars{'mta4_dir'}/proj/rac/ops/ACE/kp.dat";
   if (open KPF, $kpf) {
       while (<KPF>) { $kp = $_ };
   } else { print STDERR "Cannot read $kpf\n" };
   @kp = split /\s+/, $kp;
-
+  print "kp: $kp[0], $kp[1], $kp[2], $kp[3]\n";
   $h{KP} = [date2secs($kp[0], $kp[1], $kp[2], $kp[3]), $kp[8], "", "white"];
-  
+  print "kp time: $h{KP}[0]\n";
   return %h;
 }
 

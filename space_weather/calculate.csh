@@ -25,8 +25,14 @@
 #scrapper>mv prot_violate_ESTKP  prot_violate_ESTKP.08Jun2000
 #scrapper>mv prot_violate prot_violate.08Jun2000
 
-set SPACE_Wdir=/data/mta4/space_weather
-set WEBdir=/data/mta4/www
+set dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather'
+foreach line ("`cat $dir`")
+        set split = ($line:as/:/ /)
+        set $split[2] = $split[1]
+end
+
+#set SPACE_Wdir=/data/mta4/space_weather
+#set WEBdir=/data/mta4/www
 
 #set today=`date '+%y%m%d'`
 
@@ -100,7 +106,7 @@ if ($count > 28) then
 wget -q -O $WEBdir/Epam_7d.gif       http://services.swpc.noaa.gov/images/ace-epam-7-day.gif
 wget -q -O $WEBdir/mta_ace_plot.gif  http://services.swpc.noaa.gov/images/ace-epam-7-day.gif
 
-/usr/bin/convert -negate $WEBdir/Epam_7d.gif.gif     $WEBdir/Epam_7di.gif
+/usr/bin/convert -negate $WEBdir/Epam_7d.gif     $WEBdir/Epam_7di.gif
 /usr/bin/convert -negate $WEBdir/mta_ace_plot_P3.gif $WEBdir/Epam_7di_P3.gif
 
 # get wind speed etc. plot

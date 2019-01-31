@@ -1,7 +1,15 @@
 #! /bin/tcsh -f
 
-set SPACE_Wdir=/data/mta4/space_weather/STEREO
-set WEBdir=/data/mta4/www/RADIATION/STEREO2
+set dir = '/home/lduque/git/Realtime/space_weather/dir_space_weather'
+foreach line ("`cat $dir`")
+        set split = ($line:as/:/ /)
+        set $split[2] = $split[1]
+end
+
+#set SPACE_Wdir=/data/mta4/space_weather/STEREO
+set SPACE_Wdir = $SPACE_Wdir/STEREO
+#set WEBdir=/data/mta4/www/RADIATION/STEREO2
+set WEBdir = $WEBdir/RADIATION/STEREO2
 
 #set today=`date '+%y%m%d'`
 
@@ -15,11 +23,9 @@ set WEBdir=/data/mta4/www/RADIATION/STEREO2
 # Oct 21, 2015 - noaa ftp sites and plot link changed  (TI)
 # Not 17, 2105 - moved to linux machine
 
-set file = ftp://ftp.sec.noaa.gov/pub/lists/stereo/sta_impact_5m.txt
-/usr/bin/lynx -source $file > $SPACE_Wdir/stereoAdata
-
-set file = ftp://ftp.sec.noaa.gov/pub/lists/stereo/stb_impact_5m.txt
-/usr/bin/lynx -source $file > $SPACE_Wdir/stereoBdata
+set fileA = ftp://ftp.sec.noaa.gov/pub/lists/stereo/sta_impact_5m.txt
+set fileB = ftp://ftp.sec.noaa.gov/pub/lists/stereo/stb_impact_5m.txt
+curl -s -m 3 --retry 6 $fileA -o "$SPACE_Wdir/stereoAdata" $fileB -o "$SPACE_Wdir/stereoBdata"
 
 set count = `cat $SPACE_Wdir/stereoAdata | wc -l`
 
