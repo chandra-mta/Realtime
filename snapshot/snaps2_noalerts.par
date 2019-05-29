@@ -35,6 +35,8 @@ AIRU1G1I	2	-	150	-	200
 AIRU1G2I	2	-	150	-	200
 AIRU2G1I	2	-	150	-	200
 AIRU2G2I	2	-	150	-	200
+5EIOT           2       0       155     0       158
+5EPHINT         2       0       155     0       158
 TEPHIN		2	0	135	0	140
 #CTXAPWR		2	-1	36.82	-1	37.00
 #CTXBPWR		2	-1	36.82	-1	37.00
@@ -56,8 +58,8 @@ CORADMEN	4	radmon
 AOPCADMD	4	pcadmode
 #4HPOSARO	4	hetg
 #4LPOSBRO	4	letg
-E1300		4	e1300
-E150		4	e150
+#E1300		4	e1300
+#E150		4	e150
 2DETART		4	detart
 #P4GM		4	p4gm
 #P41GM		4	p41gm
